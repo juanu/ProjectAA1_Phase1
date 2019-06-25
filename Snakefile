@@ -33,7 +33,7 @@ rule run_bbduk_qc:
     params:
         adaptors = REFERENCES + "adapters.fa"
 
-    threads: 8
+    threads: 10
 
     shell:
         "bbduk.sh in={input.R1} in2={input.R2} out={output.R1} out2={output.R2} threads={threads} ref={params.adaptors} qtrim=rl trimq=20 ktrim=r k=23 mink=11 hdist=1 tpe tbo"
@@ -50,7 +50,7 @@ rule run_bbmap:
     params:
         filter_db = REFERENCES
 
-    threads: 8
+    threads: 10
 
     shell:
         "bbmap.sh path={params.filter_db} minid=0.95 maxindel=3 bwr=0.16 bw=12 quickmatch fast minhits=2 in={input.R1} in2={input.R2} outu={output.R1} outu2={output.R2} threads={threads}"

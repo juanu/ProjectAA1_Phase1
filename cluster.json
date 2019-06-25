@@ -1,0 +1,18 @@
+{
+  "__default__":{
+    "output"  : "cluster_logs/{rule}.{wildcards}.out",
+    "error" : "cluster_logs/{rule}.{wildcards}.err",
+  },
+  "run_bbduk_qc": {
+    "n" : 10,
+    "name"  : "{rule}.{wildcards}"
+  },
+  "run_bbmap": {
+    "n" : 10,
+    "name"  : "{rule}.{wildcards}"
+  },
+  "run_megahit_assembly": {
+    "n" : 20,
+    "name"  : "{rule}.{wildcards}"
+  }
+}
