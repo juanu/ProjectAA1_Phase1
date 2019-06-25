@@ -19,7 +19,8 @@ SAMPLES = ["Sample1", "Sample2"]
 
 rule all:
     input:
-        PROCESS + "megahit_assembly/BT1.contigs.fa"
+        PROCESS + "megahit_assembly/BT1.contigs.fa",
+        expand(PROCESS + "{sample}_spades/contigs.fasta", sample=SAMPLES)
 
 rule run_bbduk_qc:
     input:
