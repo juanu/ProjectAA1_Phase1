@@ -76,3 +76,20 @@ rule run_megahit_assembly:
         rm -rf {params.folder}
         megahit {params.R1} {params.R2} --kmin-1pass -m 0.5 --k-list 27,37,47,57,67,77,87 --min-contig-len 300 -t {threads} -o {params.folder} --out-prefix {params.prefix}
         """
+rule run_spades_assembly:
+    input:
+        R1 = PROCESS + "clean_reads/{sample}.trimmed_1.fastq.gz",
+        R2 = PROCESS + "clean_reads/{sample}.trimmed_2.fastq.gz"
+
+    output:
+        PROCESS + "{sample}_spades/contigs.fasta"
+
+    params:
+        folder = PROCESS + "{sample}_spades"
+
+    threads: 10
+
+    shell:
+        """
+        spades.py -1 {input.R1} -2 {input.R2} -o {params.folder} --meta --threads {threads} --memory 90
+        """

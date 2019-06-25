@@ -14,5 +14,9 @@
   "run_megahit_assembly": {
     "n" : 20,
     "name"  : "{rule}.{wildcards}"
+  },
+  "run_spades_assembly": {
+    "n": 20,
+    "name" : "{rule}.{wildcards}"
   }
 }
