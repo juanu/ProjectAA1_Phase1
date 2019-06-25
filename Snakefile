@@ -23,8 +23,8 @@ rule all:
 
 rule run_bbduk_qc:
     input:
-        R1 = lambda wildcards: FASTQ + SAMPLES[wildcards.sample] + "_1.fq.gz",
-        R2 = lambda wildcards: FASTQ + SAMPLES[wildcards.sample] + "_2.fq.gz"
+        R1 = FASTQ + "{Sample}_1.fq.gz",
+        R2 = FASTQ + "{Sample}_2.fq.gz",
 
     output:
         R1 = PROCESS + "clean_reads/{sample}.trimmed_1.fastq.gz",
