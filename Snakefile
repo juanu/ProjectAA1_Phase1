@@ -57,8 +57,8 @@ rule run_bbmap:
 
 rule run_megahit_assembly:
     input:
-        R1 = expand(PROCESS + "clean_reads/{sample}.clean_1.fastq.gz", sample=sample_files.keys()),
-        R2 = expand(PROCESS + "clean_reads/{sample}.clean_2.fastq.gz", sample=sample_files.keys())
+        R1 = expand(PROCESS + "clean_reads/{sample}.clean_1.fastq.gz", sample=SAMPLES),
+        R2 = expand(PROCESS + "clean_reads/{sample}.clean_2.fastq.gz", sample=SAMPLES)
 
     output:
         PROCESS + "megahit_assembly/BT1.contigs.fa"
@@ -66,8 +66,8 @@ rule run_megahit_assembly:
     params:
         folder = PROCESS + "megahit_assembly",
         prefix = "BT1",
-        R1 = expand("-1 " + PROCESS + "clean_reads/{sample}.clean_1.fastq.gz", sample=sample_files.keys()),
-        R2 = expand("-2 " + PROCESS + "clean_reads/{sample}.clean_2.fastq.gz", sample=sample_files.keys())
+        R1 = expand("-1 " + PROCESS + "clean_reads/{sample}.clean_1.fastq.gz", sample=SAMPLES),
+        R2 = expand("-2 " + PROCESS + "clean_reads/{sample}.clean_2.fastq.gz", sample=SAMPLES)
 
     threads: 20
 
