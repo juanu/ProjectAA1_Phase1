@@ -88,7 +88,7 @@ rule run_spades_assembly:
     params:
         folder = PROCESS + "{sample}_spades"
 
-    threads: 10
+    threads: 22
 
     shell:
         """
