@@ -100,7 +100,7 @@ rule run_spades_assembly:
         spades.py -1 {output.conc_R1} -2 {output.conc_R2} -o {params.folder} --meta --threads {threads} --memory 90
         """
 
-rules process_contigs:
+rule process_contigs:
     input:
         contigs_megahit = PROCESS + "megahit_assembly/BT1.contigs.fa",
         contigs_spades = PROCESS + "spades_assembly/contigs.fasta"
