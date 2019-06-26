@@ -20,7 +20,7 @@ SAMPLES = ["Sample1", "Sample2"]
 rule all:
     input:
         PROCESS + "megahit_assembly/BT1.contigs.fa",
-        PROCESS + "anvio_data/BT1_final.contigs.fa"
+        PROCESS + "spades_assembly/contigs.fasta"
 
 rule run_bbduk_qc:
     input:
@@ -112,6 +112,9 @@ rules process_contigs:
     params:
         megahit_name_file = PROCESS + "anvio_data/megahit_name_conversions.txt",
         spades_name_file = PROCESS + "anvio_data/spades_name_conversions.txt"
+
+    conda:
+        "anvio.yml"
 
     shell:
         """

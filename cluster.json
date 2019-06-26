@@ -18,5 +18,9 @@
   "run_spades_assembly": {
     "n": 20,
     "name" : "{rule}.{wildcards}"
+  },
+  "process_contigs":{
+    "n":20,
+    "name": "{rule}.{wildcards}"
   }
 }
