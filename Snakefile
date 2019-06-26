@@ -20,7 +20,7 @@ SAMPLES = ["Sample1", "Sample2"]
 rule all:
     input:
         PROCESS + "megahit_assembly/BT1.contigs.fa",
-        expand(PROCESS + "{sample}_spades/contigs.fasta", sample=SAMPLES)
+        PROCESS + "anvio_data/BT1_final.contigs.fa"
 
 rule run_bbduk_qc:
     input:
@@ -77,20 +77,48 @@ rule run_megahit_assembly:
         rm -rf {params.folder}
         megahit {params.R1} {params.R2} --kmin-1pass -m 0.5 --k-list 27,37,47,57,67,77,87 --min-contig-len 300 -t {threads} -o {params.folder} --out-prefix {params.prefix}
         """
+
 rule run_spades_assembly:
     input:
-        R1 = PROCESS + "clean_reads/{sample}.trimmed_1.fastq.gz",
-        R2 = PROCESS + "clean_reads/{sample}.trimmed_2.fastq.gz"
+        R1 = expand(PROCESS + "clean_reads/{sample}.clean_1.fastq.gz", sample=SAMPLES),
+        R2 = expand(PROCESS + "clean_reads/{sample}.clean_2.fastq.gz", sample=SAMPLES)
 
     output:
-        PROCESS + "{sample}_spades/contigs.fasta"
+        conc_R1 = "clean_reads/conc_R1.fastq.gz",
+        conc_R2 = "clean_reads/conc_R2.fastq.gz",
+        output_contigs = PROCESS + "spades_assembly/contigs.fasta"
 
     params:
-        folder = PROCESS + "{sample}_spades"
+        folder = PROCESS + "spades_assembly"
 
     threads: 22
 
     shell:
         """
-        spades.py -1 {input.R1} -2 {input.R2} -o {params.folder} --meta --threads {threads} --memory 90
+        cat {input.R1} > {output.conc_R1}
+        cat {input.R2} > {output.conc_R2}
+        spades.py -1 {output.conc_R1} -2 {output.conc_R2} -o {params.folder} --meta --threads {threads} --memory 90
         """
+
+rules process_contigs:
+    input:
+        contigs_megahit = PROCESS + "megahit_assembly/BT1.contigs.fa",
+        contigs_spades = PROCESS + "spades_assembly/contigs.fasta"
+
+    output:
+        filtered_contigs_megahit = PROCESS + "anvio_data/BT1_megahit.contigs.fa",
+        filtered_contigs_spade = PROCESS + "anvio_data/BT1_spades.contig.fa"
+
+    params:
+        megahit_name_file = PROCESS + "anvio_data/megahit_name_conversions.txt",
+        spades_name_file = PROCESS + "anvio_data/spades_name_conversions.txt"
+
+    shell:
+        """
+        anvi-script-reformat-fasta {input.contigs_megahit} -o {output.filtered_contigs_megahit} --min-len 2500 --simplify-names --report {params.megahit_name_file}
+        anvi-script-reformat-fasta {input.contigs_spades} -o {output.filtered_contigs_spade} --min-len 2500 --simplify-names --report {params.spades_name_file}
+        """
+
+#rules map_reads:
+#    input:
+#        contigs = PROCESS + "anvio_data/BT1_final.contigs.fa"
