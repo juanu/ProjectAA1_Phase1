@@ -19,8 +19,8 @@ SAMPLES = ["Sample1", "Sample2"]
 
 rule all:
     input:
-        PROCESS + "megahit_assembly/BT1.contigs.fa",
-        PROCESS + "spades_assembly/contigs.fasta"
+        PROCESS + "anvio_data/BT1_megahit.contigs.fa",
+        PROCESS + "anvio_data/BT1_spades.contig.fa"
 
 rule run_bbduk_qc:
     input:
