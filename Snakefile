@@ -176,13 +176,14 @@ rule run_phyloflash:
         db = "/hpcudd/home/jugalde/storage/databases/phyloflash/132",
         lib = "PhyloFlash-{sample}"
 
-    threads:10
+    threads:20
 
     conda:
         "phyloflash.yml"
 
     shell:
         """
+        $MAFFT_BINARIES = ~/miniconda2/envs/phyloflash/bin/mafft
         phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
