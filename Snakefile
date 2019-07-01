@@ -22,7 +22,8 @@ rule all:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
-        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES)
+        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
+        expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES)
 
 
 rule run_bbduk_qc:
@@ -200,10 +201,40 @@ rule run_metabat2:
         touch metabat2_done.check
         """
 
-#
+# Run Humman2
 
+rule concatenate_reads:
+    input:
+        R1 = PROCESS + "clean_reads/{sample}.clean_1.fastq.gz",
+        R2 = PROCESS + "clean_reads/{sample}.clean_2.fastq.gz"
 
+    output:
+        R1R2 = PROCESS + "clean_reads/{sample}.clean_R1R2.fastq.gz"
 
-# Functional (humann2)
-#rule run_humann2:
-#    input:
+    shell:
+        """
+        cat {input.R1} {input.R2} > {output.R1R2}
+        """
+
+rule run_humann2:
+    input:
+        R1R2 = PROCESS + "clean_reads/{sample}.clean_R1R2.fastq.gz"
+
+    output:
+        RESULTS + "humann2/{sample}_genefamilies.tsv"
+
+    params:
+        output_folder = RESULTS + "humman2",
+        sample_name = "{sample}",
+        nuc_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/chocophlan",
+        prot_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/uniref"
+
+    threads: 20
+
+    conda:
+        "humann2.yml"
+
+    shell:
+        """
+        humann2 --input {input.R1R2} --output {params.output_folder} --output-basename {params.sample_name} --nucleotide-database {params.nuc_db} --protein-database {params.prot_db} --threads {threads}
+        """
