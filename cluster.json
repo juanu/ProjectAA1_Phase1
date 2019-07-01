@@ -22,5 +22,21 @@
   "process_contigs":{
     "n":20,
     "name": "{rule}.{wildcards}"
+  },
+  "make_bw_index":{
+    "n":20,
+    "name": "make_bw_index"
+  },
+  "map_reads":{
+    "n":20,
+    "name": "{rule}.{wildcards}"
+  },
+  "run_phyloflash":{
+    "n":20,
+    "name": "{rule}.{wildcards}"
+  },
+  "run_metabat2":{
+    "n":20,
+    "name": "run_metabat2"
   }
 }

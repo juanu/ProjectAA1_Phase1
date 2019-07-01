@@ -178,9 +178,9 @@ rule run_phyloflash:
         "phyloflash.yml"
 
     shell:
-    """
-    phyloFlash.pl -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
-    """
+        """
+        phyloFlash.pl -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
+        """
 
 # Running Metabat2
 rule run_metabat2:
