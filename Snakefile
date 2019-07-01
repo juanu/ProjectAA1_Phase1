@@ -182,7 +182,7 @@ rule run_phyloflash:
 
     shell:
         """
-        phyloFlash.pl -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
+        phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
 # Running Metabat2
@@ -199,6 +199,9 @@ rule run_metabat2:
         runMetaBat.sh {input.assembly} {input.bam_files}
         touch metabat2_done.check
         """
+
+#
+
 
 
 # Functional (humann2)
