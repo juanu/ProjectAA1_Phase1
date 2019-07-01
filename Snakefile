@@ -9,7 +9,7 @@ from collections import defaultdict
 FASTQ = "data/fastq/"
 PROCESS = "data/process/"
 REFERENCES = "data/references/"
-
+RESULTS = "results/"
 
 
 # Get samples names from the metadata
@@ -122,6 +122,82 @@ rule process_contigs:
         anvi-script-reformat-fasta {input.contigs_spades} -o {output.filtered_contigs_spade} --min-len 2500 --simplify-names --report {params.spades_name_file}
         """
 
-#rules map_reads:
+rule make_bw_index:
+    input:
+        contigs = PROCESS + "anvio_data/BT1_spades.contig.fa"
+
+    output:
+        db = PROCESS + "anvio_data/BT1_spades.bowtie2"
+
+    shell:
+        """
+        bowtie2-build {input.contigs} {output.db}
+        """
+
+rule map_reads:
+    input:
+        R1 = PROCESS + "clean_reads/{sample}.clean_1.fastq.gz",
+        R2 = PROCESS + "clean_reads/{sample}.clean_2.fastq.gz",
+        db = PROCESS + "anvio_data/BT1_spades.bowtie2"
+
+    output:
+        mapped = PROCESS + "anvio_data/{sample}.sorted.bam"
+
+    params:
+        out_sam = PROCESS + "anvio_data/{sample}.sam",
+        temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam"
+
+    threads: 10
+
+    shell:
+        """
+        bowtie2 --threads {threads} -x {input.db} -1 {input.R1} -2 {input.R2} -s {params.out_sam}
+        samtools view -F 4 -bS {params.out_sam} >  {params.temp_bam}
+        samtools sort -o {output.mapped} {params.temp_bam}
+        samtools index {output.mapped}
+        rm {params.out_sam}
+        rm {temp_bam}
+        """
+
+#change for phyloflash
+rule run_phyloflash:
+    input:
+        R1 = PROCESS + "clean_reads/{sample}.clean_1.fastq.gz",
+        R2 = PROCESS + "clean_reads/{sample}.clean_2.fastq.gz"
+
+    output:
+        RESULTS + "phyloflash/{sample}.phyloFlash.html"
+
+    params:
+        db = "/hpcudd/home/jugalde/storage/databases/phyloflash"
+        lib = RESULTS + "phyloflash/{sample}"
+
+    threads:10
+
+    conda:
+        "phyloflash.yml"
+
+    shell:
+    """
+    phyloFlash.pl -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
+    """
+
+# Running Metabat2
+rule run_metabat2:
+    input:
+        bam_files = expand(PROCESS + "anvio_data/{sample}.sorted.bam", sample=SAMPLES)
+        assembly =  PROCESS + "anvio_data/BT1_spades.contig.fa"
+
+    output:
+        "metabat2_done.check"
+
+    shell:
+        """
+        runMetaBat.sh {input.assembly} {input.bam_files}
+        touch metabat2_done.check
+        """
+
+
+# Functional (humann2)
+#rule run_humann2:
 #    input:
-#        contigs = PROCESS + "anvio_data/BT1_final.contigs.fa"
