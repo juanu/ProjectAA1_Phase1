@@ -39,6 +39,10 @@
     "n":20,
     "name": "run_metabat2"
   },
+  "concatenate_reads":{
+    "n":20,
+    "name": "{rule}.{wildcards}"
+  },
   "run_humann2":{
     "n":20,
     "name": "{rule}.{wildcards}"
