@@ -169,7 +169,7 @@ rule run_phyloflash:
         RESULTS + "phyloflash/{sample}.phyloFlash.html"
 
     params:
-        db = "/hpcudd/home/jugalde/storage/databases/phyloflash"
+        db = "/hpcudd/home/jugalde/storage/databases/phyloflash",
         lib = RESULTS + "phyloflash/{sample}"
 
     threads:10
@@ -185,7 +185,7 @@ rule run_phyloflash:
 # Running Metabat2
 rule run_metabat2:
     input:
-        bam_files = expand(PROCESS + "anvio_data/{sample}.sorted.bam", sample=SAMPLES)
+        bam_files = expand(PROCESS + "anvio_data/{sample}.sorted.bam", sample=SAMPLES),
         assembly =  PROCESS + "anvio_data/BT1_spades.contig.fa"
 
     output:
