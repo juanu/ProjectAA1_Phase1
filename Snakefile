@@ -231,7 +231,7 @@ rule run_humann2:
         nuc_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/chocophlan",
         prot_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/uniref",
         metaphlan_pkl = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/metaphlan2/mpa_v20_m200.pkl",
-        metaphlan_bwt = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/metaphlan2/mpa_v20_m200"
+        metaphlan_bwt = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/metaphlan2/"
 
     threads: 20
 
