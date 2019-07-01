@@ -22,7 +22,7 @@ rule all:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
-        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
+        #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
         expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES)
 
 
@@ -184,6 +184,7 @@ rule run_phyloflash:
     shell:
         """
         unset MAFFT_BINARIES
+        export MAFFT_BINARIES=~/miniconda2/envs/phyloflash/bin/mafft
         phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
