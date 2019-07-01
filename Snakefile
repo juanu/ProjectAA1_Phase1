@@ -169,11 +169,11 @@ rule run_phyloflash:
         R2 = PROCESS + "clean_reads/{sample}.clean_2.fastq.gz"
 
     output:
-        RESULTS + "phyloflash/{sample}.phyloFlash.html"
+        "PhyloFlash-{sample}.phyloFlash.html"
 
     params:
         db = "/hpcudd/home/jugalde/storage/databases/phyloflash/132",
-        lib = RESULTS + "phyloflash/{sample}"
+        lib = "PhyloFlash-{sample}"
 
     threads:10
 
