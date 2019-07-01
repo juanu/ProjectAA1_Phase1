@@ -148,7 +148,7 @@ rule map_reads:
 
     params:
         out_sam = PROCESS + "anvio_data/{sample}.sam",
-        temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam"
+        temp_bam = PROCESS + "anvio_data/{sample}.RAW.bam"
 
     threads: 10
 
