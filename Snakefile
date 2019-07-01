@@ -20,7 +20,10 @@ SAMPLES = ["Sample1", "Sample2"]
 rule all:
     input:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
-        PROCESS + "anvio_data/BT1_spades.contig.fa"
+        PROCESS + "anvio_data/BT1_spades.contig.fa",
+        "metabat2_done.check",
+        RESULTS + "phyloflash/{sample}.phyloFlash.html"
+
 
 rule run_bbduk_qc:
     input:
