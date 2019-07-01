@@ -148,7 +148,7 @@ rule map_reads:
 
     params:
         out_sam = PROCESS + "anvio_data/{sample}.sam",
-        temp_bam = PROCESS + "anvio_data/{sample}.RAW.bam"
+        temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam"
 
     threads: 10
 
@@ -159,7 +159,7 @@ rule map_reads:
         samtools sort -o {output.mapped} {params.temp_bam}
         samtools index {output.mapped}
         rm {params.out_sam}
-        rm {temp_bam}
+        rm {params.temp_bam}
         """
 
 #change for phyloflash
