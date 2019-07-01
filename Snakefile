@@ -172,7 +172,7 @@ rule run_phyloflash:
         RESULTS + "phyloflash/{sample}.phyloFlash.html"
 
     params:
-        db = "/hpcudd/home/jugalde/storage/databases/phyloflash",
+        db = "/hpcudd/home/jugalde/storage/databases/phyloflash/132",
         lib = RESULTS + "phyloflash/{sample}"
 
     threads:10
