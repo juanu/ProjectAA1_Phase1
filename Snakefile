@@ -226,10 +226,12 @@ rule run_humann2:
         RESULTS + "humann2/{sample}_genefamilies.tsv"
 
     params:
-        output_folder = RESULTS + "humman2",
+        output_folder = RESULTS + "humann2",
         sample_name = "{sample}",
         nuc_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/chocophlan",
-        prot_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/uniref"
+        prot_db = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/uniref",
+        metaphlan_pkl = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/metaphlan2/mpa_v20_m200.pkl",
+        metaphlan_bwt = "/hpcudd/home/jugalde/storage/databases/humann2_dbs/metaphlan2/mpa_v20_m200"
 
     threads: 20
 
@@ -238,5 +240,5 @@ rule run_humann2:
 
     shell:
         """
-        humann2 --input {input.R1R2} --output {params.output_folder} --output-basename {params.sample_name} --nucleotide-database {params.nuc_db} --protein-database {params.prot_db} --threads {threads}
+        humann2 --input {input.R1R2} --output {params.output_folder} --output-basename {params.sample_name} --nucleotide-database {params.nuc_db} --protein-database {params.prot_db} --threads {threads} --metaphlan-options "--mpa_pkl {params.metaphlan_pkl} --bowtie2db {params.metaphlan_bwt}"
         """
