@@ -22,7 +22,7 @@ rule all:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
-        expand(RESULTS + "phyloflash/{sample}.phyloFlash.html", sample=SAMPLES)
+        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES)
 
 
 rule run_bbduk_qc:
