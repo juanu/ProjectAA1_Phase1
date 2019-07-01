@@ -151,7 +151,7 @@ rule map_reads:
         out_sam = PROCESS + "anvio_data/{sample}.sam",
         temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam"
 
-    threads: 10
+    threads: 20
 
     shell:
         """
@@ -183,7 +183,7 @@ rule run_phyloflash:
 
     shell:
         """
-        $MAFFT_BINARIES = ~/miniconda2/envs/phyloflash/bin/mafft
+        export MAFFT_BINARIES=~/miniconda2/envs/phyloflash/bin/mafft
         phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
