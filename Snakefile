@@ -23,7 +23,8 @@ rule all:
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
         #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
-        expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES)
+        expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES),
+        RESULTS + "checkm_results/CheckM.txt"
 
 
 rule run_bbduk_qc:
