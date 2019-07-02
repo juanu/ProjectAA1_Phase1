@@ -25,7 +25,7 @@ rule all:
         #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
         expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES),
         RESULTS + "checkm_results/CheckM.txt",
-        RESULTS + "gtdbtk_output"
+        "gtdbtk_done.check"
 
 
 rule run_bbduk_qc:
@@ -234,12 +234,15 @@ rule run_gtdbtk:
         "metabat2_done.check"
 
     output:
-        output_folder = directory(RESULTS + "gtdbtk_output")
+        "gtdbtk_done.check"
 
     conda:
         "gtdbtk.yml"
 
     threads:20
+
+    params:
+        output_folder = RESULTS + "gtdbtk_output"
 
     shell:
         """
