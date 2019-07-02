@@ -25,7 +25,7 @@ rule all:
         #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
         expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES),
         RESULTS + "checkm_results/CheckM.txt",
-        directory(RESULTS + "gtdbtk_output")
+        RESULTS + "gtdbtk_output"
 
 
 rule run_bbduk_qc:
