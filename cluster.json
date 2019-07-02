@@ -39,6 +39,10 @@
     "n":20,
     "name": "run_metabat2"
   },
+  "run_checkm":{
+    "n":20,
+    "name": "run_checkm"
+  },
   "concatenate_reads":{
     "n":20,
     "name": "{rule}.{wildcards}"

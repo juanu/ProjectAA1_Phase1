@@ -204,6 +204,29 @@ rule run_metabat2:
         touch metabat2_done.check
         """
 
+# Running this manually
+rule run_checkm:
+    input:
+        "metabat2_done.check"
+
+    output:
+        summary = RESULTS + "checkm_results/CheckM.txt"
+
+    conda:
+        "checkm.yml"
+
+    params:
+        bins = "BT1_spades.contig.fa.metabat-bins",
+        output_folder = RESULTS + "checkm_results"
+
+    threads: 20
+
+    shell:
+        """
+        checkm data setRoot /hpcudd/home/jugalde/storage/databases/checkm
+        checkm lineage_wf -f {output.summary} -t {threads} -x fa {params.bins} {params.output_folder}
+        """
+
 # Run Humman2
 
 rule concatenate_reads:
