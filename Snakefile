@@ -232,7 +232,7 @@ rule run_gtdbtk:
     input:
         "metabat2_done.check"
 
-    output
+    output:
         output_folder = directory(RESULTS + "gtdbtk_output")
 
     conda:
