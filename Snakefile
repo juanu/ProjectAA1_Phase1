@@ -156,7 +156,7 @@ rule map_reads:
 
     shell:
         """
-        bowtie2 --threads {threads} -x {params.db} -1 {input.R1} -2 {input.R2} -s {params.out_sam}
+        bowtie2 --threads {threads} -x {params.db} -1 {input.R1} -2 {input.R2} -S {params.out_sam}
         samtools view -F 4 -bS {params.out_sam} > {params.temp_bam}
         samtools sort -o {output.mapped} {params.temp_bam}
         samtools index {output.mapped}
