@@ -50,5 +50,9 @@
   "run_humann2":{
     "n":20,
     "name": "{rule}.{wildcards}"
+  },
+  "run_gtdbtk":{
+    "n":20,
+    "name": "run_gtdbtk"
   }
 }

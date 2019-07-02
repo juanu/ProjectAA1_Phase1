@@ -227,6 +227,26 @@ rule run_checkm:
         checkm lineage_wf -f {output.summary} -t {threads} -x fa {params.bins} {params.output_folder}
         """
 
+rule run_gtbtk:
+    input:
+        "metabat2_done.check"
+
+    output
+        output_folder = directory(RESULTS + "gtdbtk_output")
+
+    conda:
+        "gtdbtk.yml"
+
+    threads:20
+
+    shell:
+        """
+        download-db.sh
+        gtdbtk classify_wf --cpus {threads} --genome_dir BT1_spades.contig.fa.metabat-bins --out_dir {output.output_folder} --extension fa
+        """
+
+
+
 # Run Humman2
 
 rule concatenate_reads:
