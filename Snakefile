@@ -186,7 +186,6 @@ rule run_phyloflash:
     shell:
         """
         unset MAFFT_BINARIES
-        export MAFFT_BINARIES=~/miniconda2/envs/phyloflash/bin/mafft
         phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
