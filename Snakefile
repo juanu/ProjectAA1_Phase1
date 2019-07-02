@@ -22,7 +22,7 @@ rule all:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
-        #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
+        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
         expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES),
         RESULTS + "checkm_results/CheckM.txt"
 
@@ -165,7 +165,7 @@ rule map_reads:
         rm {params.temp_bam}
         """
 
-#change for phyloflash
+#run phyloflash
 rule run_phyloflash:
     input:
         R1 = PROCESS + "clean_reads/{sample}.clean_1.fastq.gz",
