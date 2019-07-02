@@ -131,7 +131,7 @@ rule make_bw_index:
         contigs = PROCESS + "anvio_data/BT1_spades.contig.fa"
 
     output:
-        db = PROCESS + "anvio_data/BT1_spades.bowtie2"
+        db = PROCESS + "anvio_data/BT1_spades.bowtie2.1.bt2"
 
     shell:
         """
