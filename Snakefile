@@ -142,20 +142,21 @@ rule map_reads:
     input:
         R1 = PROCESS + "clean_reads/{sample}.clean_1.fastq.gz",
         R2 = PROCESS + "clean_reads/{sample}.clean_2.fastq.gz",
-        db = PROCESS + "anvio_data/BT1_spades.bowtie2"
+        db = PROCESS + "anvio_data/BT1_spades.bowtie2.1.bt2"
 
     output:
         mapped = PROCESS + "anvio_data/{sample}.sorted.bam"
 
     params:
         out_sam = PROCESS + "anvio_data/{sample}.sam",
-        temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam"
+        temp_bam = PROCESS + "anvio_data/{sample}-RAW.bam",
+        db = PROCESS + "anvio_data/BT1_spades.bowtie2"
 
     threads: 20
 
     shell:
         """
-        bowtie2 --threads {threads} -x {input.db} -1 {input.R1} -2 {input.R2} -s {params.out_sam}
+        bowtie2 --threads {threads} -x {params.db} -1 {input.R1} -2 {input.R2} -s {params.out_sam}
         samtools view -F 4 -bS {params.out_sam} > {params.temp_bam}
         samtools sort -o {output.mapped} {params.temp_bam}
         samtools index {output.mapped}
