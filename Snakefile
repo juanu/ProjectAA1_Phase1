@@ -22,7 +22,7 @@ rule all:
         PROCESS + "anvio_data/BT1_megahit.contigs.fa",
         PROCESS + "anvio_data/BT1_spades.contig.fa",
         "metabat2_done.check",
-        expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
+        #expand("PhyloFlash-{sample}.phyloFlash.html", sample=SAMPLES),
         expand(RESULTS + "humann2/{sample}_genefamilies.tsv", sample=SAMPLES),
         RESULTS + "checkm_results/CheckM.txt"
 
@@ -186,6 +186,7 @@ rule run_phyloflash:
     shell:
         """
         unset MAFFT_BINARIES
+        MAFFT_BINARIES=~/miniconda2/bin/mafft
         phyloFlash.pl -dbhome {params.db} -lib {params.lib} -read1 {input.R1} -read2 {input.R2} -CPUS {threads} -log -emirge -poscov
         """
 
@@ -227,7 +228,7 @@ rule run_checkm:
         checkm lineage_wf -f {output.summary} -t {threads} -x fa {params.bins} {params.output_folder}
         """
 
-rule run_gtbtk:
+rule run_gtdbtk:
     input:
         "metabat2_done.check"
 
