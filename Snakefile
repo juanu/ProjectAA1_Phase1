@@ -247,7 +247,7 @@ rule run_gtdbtk:
     shell:
         """
         download-db.sh
-        gtdbtk classify_wf --cpus {threads} --genome_dir BT1_spades.contig.fa.metabat-bins --out_dir {output.output_folder} --extension fa
+        gtdbtk classify_wf --cpus {threads} --genome_dir BT1_spades.contig.fa.metabat-bins --out_dir {params.output_folder} --extension fa
         """
 
 
